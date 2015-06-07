@@ -10,6 +10,10 @@ Currently supported Decorations:
   * Works with reversed layouts
   * Headers are cached to ensure very little memory is utalised
   
+
+### Header Example
+[![animated gif demo](http://i.imgur.com/88dvq73.gif?1)](http://i.imgur.com/88dvq73.gif?1)
+
 Download
 ---------
 ```
