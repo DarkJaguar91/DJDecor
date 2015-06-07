@@ -6,4 +6,5 @@ import android.view.ViewGroup;
 
 public interface DJHeaderProvider {
     View getView(int position, RecyclerView parent);
+    void clear();
 }

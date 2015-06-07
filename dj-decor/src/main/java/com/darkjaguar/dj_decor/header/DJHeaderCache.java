@@ -42,6 +42,11 @@ public class DJHeaderCache implements DJHeaderProvider {
         return view;
     }
 
+    @Override
+    public void clear() {
+        this.headerCache.evictAll();
+    }
+
     private void correctViewSizes(View view, RecyclerView parent) {
         if (view.getLayoutParams() == null) {
             view.setLayoutParams(new ViewGroup.LayoutParams(

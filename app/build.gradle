@@ -31,5 +31,5 @@ dependencies {
     compile project(':dj-decor')
     compile 'com.android.support:recyclerview-v7:22.2.0'
     compile 'com.jakewharton:butterknife:6.1.0'
-//    compile 'com.darkjaguar:dj-decor:0.1.0'
+//    compile 'com.darkjaguar:dj-decor:0.2.0'
 }

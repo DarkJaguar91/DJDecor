@@ -37,7 +37,7 @@ public class DJHeaderDecor extends RecyclerView.ItemDecoration {
             Rect marginsForView = DJMarginCalculator.getMarginsForView(header);
 
             if (orientation == RecyclerView.VERTICAL) {
-                outRect.left = marginsForView.left;
+                outRect.left = 0;
                 int headerHeight = marginsForView.top + marginsForView.bottom + header.getHeight();
                 if (reversed) {
                     outRect.bottom = headerHeight;
@@ -45,7 +45,7 @@ public class DJHeaderDecor extends RecyclerView.ItemDecoration {
                     outRect.top = headerHeight;
                 }
             } else {
-                outRect.top = marginsForView.top;
+                outRect.top = 0;
                 int headerWidth = marginsForView.left + marginsForView.right + header.getWidth();
                 if (reversed) {
                     outRect.right = headerWidth;
@@ -83,5 +83,9 @@ public class DJHeaderDecor extends RecyclerView.ItemDecoration {
                 c.restore();
             }
         }
+    }
+
+    public void clearCache() {
+        headerCache.clear();
     }
 }
