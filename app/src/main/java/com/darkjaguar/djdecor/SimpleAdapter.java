@@ -37,7 +37,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder
 
     @Override
     public long getHeaderId(int position) {
-        return position / 13;
+        return position / 10;
     }
 
     @Override

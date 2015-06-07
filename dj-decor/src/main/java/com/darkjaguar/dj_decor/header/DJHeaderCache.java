@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.darkjaguar.dj_decor.header.interfaces.DJHeaderDecorAdapter;
 import com.darkjaguar.dj_decor.header.interfaces.DJHeaderProvider;
+import com.darkjaguar.dj_decor.header.util.DJRecyclerViewOrientationHelper;
 
 
 public class DJHeaderCache implements DJHeaderProvider {
@@ -23,7 +24,7 @@ public class DJHeaderCache implements DJHeaderProvider {
     }
 
     @Override
-    public View getView(int position, ViewGroup parent) {
+    public View getView(int position, RecyclerView parent) {
         long id = adapter.getHeaderId(position);
 
         View view = headerCache.get(id);
@@ -41,7 +42,7 @@ public class DJHeaderCache implements DJHeaderProvider {
         return view;
     }
 
-    private void correctViewSizes(View view, ViewGroup parent) {
+    private void correctViewSizes(View view, RecyclerView parent) {
         if (view.getLayoutParams() == null) {
             view.setLayoutParams(new ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -50,8 +51,10 @@ public class DJHeaderCache implements DJHeaderProvider {
         int widthSpec;
         int heightSpec;
 
-        widthSpec = View.MeasureSpec.makeMeasureSpec(parent.getWidth(), View.MeasureSpec.EXACTLY);
-        heightSpec = View.MeasureSpec.makeMeasureSpec(parent.getHeight(), View.MeasureSpec.UNSPECIFIED);
+        int orientation = DJRecyclerViewOrientationHelper.getRecyclerViewOrientation(parent);
+
+        widthSpec = View.MeasureSpec.makeMeasureSpec(parent.getWidth(), orientation == RecyclerView.VERTICAL ? View.MeasureSpec.EXACTLY : View.MeasureSpec.UNSPECIFIED);
+        heightSpec = View.MeasureSpec.makeMeasureSpec(parent.getHeight(), orientation == RecyclerView.VERTICAL ? View.MeasureSpec.UNSPECIFIED : View.MeasureSpec.EXACTLY);
 
         int childWidth = ViewGroup.getChildMeasureSpec(widthSpec,
                 parent.getPaddingLeft() + parent.getPaddingRight(), view.getLayoutParams().width);

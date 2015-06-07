@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.LinearLayout;
 
 import com.darkjaguar.dj_decor.header.DJHeaderDecor;
 
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.inject(this);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL, true));
         SimpleAdapter adapter = new SimpleAdapter();
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DJHeaderDecor(adapter));

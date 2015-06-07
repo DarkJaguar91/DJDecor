@@ -10,6 +10,7 @@ import com.darkjaguar.dj_decor.header.interfaces.DJHeaderDecorAdapter;
 import com.darkjaguar.dj_decor.header.interfaces.DJHeaderPositonCalculator;
 import com.darkjaguar.dj_decor.header.interfaces.DJHeaderProvider;
 import com.darkjaguar.dj_decor.header.util.DJMarginCalculator;
+import com.darkjaguar.dj_decor.header.util.DJRecyclerViewOrientationHelper;
 
 public class DJHeaderDecor extends RecyclerView.ItemDecoration {
     protected final DJHeaderDecorAdapter adapter;
@@ -31,9 +32,27 @@ public class DJHeaderDecor extends RecyclerView.ItemDecoration {
 
         View header = headerCache.getView(position, parent);
         if (positionCalculator.needsNewHeader(position)) {
+            int orientation = DJRecyclerViewOrientationHelper.getRecyclerViewOrientation(parent);
+            boolean reversed = DJRecyclerViewOrientationHelper.isRecyclerViewReversed(parent);
             Rect marginsForView = DJMarginCalculator.getMarginsForView(header);
-            outRect.left = marginsForView.left;
-            outRect.top = marginsForView.top + marginsForView.bottom + header.getHeight();
+
+            if (orientation == RecyclerView.VERTICAL) {
+                outRect.left = marginsForView.left;
+                int headerHeight = marginsForView.top + marginsForView.bottom + header.getHeight();
+                if (reversed) {
+                    outRect.bottom = headerHeight;
+                } else {
+                    outRect.top = headerHeight;
+                }
+            } else {
+                outRect.top = marginsForView.top;
+                int headerWidth = marginsForView.left + marginsForView.right + header.getWidth();
+                if (reversed) {
+                    outRect.right = headerWidth;
+                } else {
+                    outRect.left = headerWidth;
+                }
+            }
         }
     }
 
@@ -49,12 +68,14 @@ public class DJHeaderDecor extends RecyclerView.ItemDecoration {
 
             if (position == RecyclerView.NO_POSITION) continue;
 
-            boolean firstView = positionCalculator.isFirstView(view);
+            int orientation = DJRecyclerViewOrientationHelper.getRecyclerViewOrientation(parent);
+            boolean reversed = DJRecyclerViewOrientationHelper.isRecyclerViewReversed(parent);
+            boolean firstView = positionCalculator.isFirstView(view, parent, orientation, reversed);
             boolean needsNewHeader = positionCalculator.needsNewHeader(position);
             if (firstView || needsNewHeader) {
                 View header = headerCache.getView(position, parent);
 
-                Point headerPos = positionCalculator.getPositionForHeader(view, header, position, firstView);
+                Point headerPos = positionCalculator.getPositionForHeader(view, header, parent, position, firstView, orientation, reversed);
 
                 c.save();
                 c.translate(headerPos.x, headerPos.y);
