@@ -4,10 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
 
-import com.darkjaguar.library.headers.DJHeaderDecor;
+import com.darkjaguar.dj_decor.header.DJHeaderDecor;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

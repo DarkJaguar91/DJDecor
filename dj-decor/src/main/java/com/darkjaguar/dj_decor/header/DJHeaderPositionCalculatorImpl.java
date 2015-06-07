@@ -1,12 +1,12 @@
-package com.darkjaguar.library.headers;
+package com.darkjaguar.dj_decor.header;
 
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.View;
 
-import com.darkjaguar.library.headers.interfaces.DJHeaderDecorAdapter;
-import com.darkjaguar.library.headers.interfaces.DJHeaderPositonCalculator;
-import com.darkjaguar.library.headers.util.DJMarginCalculator;
+import com.darkjaguar.dj_decor.header.interfaces.DJHeaderDecorAdapter;
+import com.darkjaguar.dj_decor.header.interfaces.DJHeaderPositonCalculator;
+import com.darkjaguar.dj_decor.header.util.DJMarginCalculator;
 
 
 public class DJHeaderPositionCalculatorImpl implements DJHeaderPositonCalculator {

@@ -1,12 +1,12 @@
-package com.darkjaguar.library.headers;
+package com.darkjaguar.dj_decor.header;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.LruCache;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.darkjaguar.library.headers.interfaces.DJHeaderDecorAdapter;
-import com.darkjaguar.library.headers.interfaces.DJHeaderProvider;
+import com.darkjaguar.dj_decor.header.interfaces.DJHeaderDecorAdapter;
+import com.darkjaguar.dj_decor.header.interfaces.DJHeaderProvider;
 
 
 public class DJHeaderCache implements DJHeaderProvider {

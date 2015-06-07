@@ -1,4 +1,4 @@
-package com.darkjaguar.library;
+package com.darkjaguar.dj_decor;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

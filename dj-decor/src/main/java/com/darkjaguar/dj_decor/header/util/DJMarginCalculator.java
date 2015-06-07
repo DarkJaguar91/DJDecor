@@ -1,4 +1,4 @@
-package com.darkjaguar.library.headers.util;
+package com.darkjaguar.dj_decor.header.util;
 
 import android.graphics.Rect;
 import android.view.View;

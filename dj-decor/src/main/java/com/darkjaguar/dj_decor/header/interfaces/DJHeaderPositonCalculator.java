@@ -1,4 +1,4 @@
-package com.darkjaguar.library.headers.interfaces;
+package com.darkjaguar.dj_decor.header.interfaces;
 
 import android.graphics.Point;
 import android.view.View;

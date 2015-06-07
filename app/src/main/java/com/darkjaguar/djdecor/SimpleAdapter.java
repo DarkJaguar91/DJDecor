@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.darkjaguar.library.headers.interfaces.DJHeaderDecorAdapter;
+import com.darkjaguar.dj_decor.header.interfaces.DJHeaderDecorAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

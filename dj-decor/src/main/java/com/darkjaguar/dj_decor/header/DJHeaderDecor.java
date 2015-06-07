@@ -1,17 +1,15 @@
-package com.darkjaguar.library.headers;
+package com.darkjaguar.dj_decor.header;
 
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.util.Log;
-import android.view.View;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
-import com.darkjaguar.library.headers.interfaces.DJHeaderDecorAdapter;
-import com.darkjaguar.library.headers.interfaces.DJHeaderPositonCalculator;
-import com.darkjaguar.library.headers.interfaces.DJHeaderProvider;
-import com.darkjaguar.library.headers.util.DJMarginCalculator;
-
+import com.darkjaguar.dj_decor.header.interfaces.DJHeaderDecorAdapter;
+import com.darkjaguar.dj_decor.header.interfaces.DJHeaderPositonCalculator;
+import com.darkjaguar.dj_decor.header.interfaces.DJHeaderProvider;
+import com.darkjaguar.dj_decor.header.util.DJMarginCalculator;
 
 public class DJHeaderDecor extends RecyclerView.ItemDecoration {
     protected final DJHeaderDecorAdapter adapter;
