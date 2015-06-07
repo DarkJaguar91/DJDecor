@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.direction_button)
     public void onDirectionChanged() {
-        btnDirect.setText(layoutManager.getReverseLayout() ? "Reversed" : "Normal");
+        btnDirect.setText(layoutManager.getReverseLayout() ? "Normal" : "Reversed");
         layoutManager.setReverseLayout(!layoutManager.getReverseLayout());
         adapter.notifyDataSetChanged();
     }
