@@ -1,28 +1,10 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
 
-ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'dj-decor'
+// This is the library version used when deploying the artifact
+version = "0.1.0"
 
-    publishedGroupId = 'com.darkjaguar.djdecor'
-    libraryName = 'DJDecor'
-    artifact = 'dj-decor'
-
-    libraryDescription = 'Decoration library for the RecyclerView'
-
-    siteUrl = 'https://github.com/DarkJaguar91/DJDecor'
-    gitUrl = 'https://github.com/DarkJaguar91/DJDecor.git'
-
-    libraryVersion = '0.1.0'
-
-    developerId = 'darkjaguar91'
-    developerName = 'Brandon James Talbot'
-    developerEmail = 'bjtalbot@webafrica.org.za'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-}
 android {
     compileSdkVersion 22
     buildToolsVersion '22.0.1'
@@ -31,12 +13,53 @@ android {
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 1
-        versionName "1.0"
+        versionName version
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+def siteUrl = 'https://github.com/DarkJaguar91/DJDecor'      // Homepage URL of the library
+def gitUrl = 'https://github.com/DarkJaguar91/DJDecor.git'   // Git repository URL
+group = "com.darkjaguar"                                        // Maven Group ID for the artifact
+
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+
+                // Add your description here
+                name 'Decor Library for Androids RecyclerView'
+                url siteUrl
+
+                // Set your license
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'darkjaguar91'
+                        name 'Brandon James Talbot'
+                        email 'bjtalbot@webafrica.org.za'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+
+                }
+            }
         }
     }
 }
@@ -47,5 +70,39 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:22.2.0'
 }
 
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = "maven"
+        name = "DJDecor"
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}
