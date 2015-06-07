@@ -19,10 +19,17 @@ android {
     }
 }
 
+repositories {
+    maven {
+        url 'https://dl.bintray.com/bjtal91/maven'
+    }
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:22.2.0'
-    compile project(':dj-decor')
+//    compile project(':dj-decor')
     compile 'com.android.support:recyclerview-v7:22.2.0'
     compile 'com.jakewharton:butterknife:6.1.0'
+    compile 'com.darkjaguar:dj-decor:0.1.0'
 }
