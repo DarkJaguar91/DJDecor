@@ -8,7 +8,7 @@ Currently supported Decorations:
 * Header decoration for LinearLayout RecyclerView.
   * Works for Both Vertical and Horizontal layouts.
   * Works with reversed layouts
-  * Headers are cached to ensure very little memory is utalised
+  * Headers are cached and reused to ensure very little memory is utalised
   
 
 ### Header Example
