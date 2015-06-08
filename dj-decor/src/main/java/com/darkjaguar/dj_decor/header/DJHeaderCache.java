@@ -23,6 +23,9 @@ public class DJHeaderCache implements DJHeaderProvider {
         headerCache = new LruCache<>(maxSize);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public View getView(int position, RecyclerView parent) {
         long id = adapter.getHeaderId(position);
@@ -42,11 +45,21 @@ public class DJHeaderCache implements DJHeaderProvider {
         return view;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clear() {
         this.headerCache.evictAll();
     }
 
+    /**
+     * Method to generate the layout for the given view.
+     *  This method is needed for views that do not already have a given width and height and use
+     *  match_parent and wrap_content. If this is not called for those view types nothing will be drawn.
+     * @param view to correct the layout for.
+     * @param parent view for the view that needs its layout correct
+     */
     private void correctViewSizes(View view, RecyclerView parent) {
         if (view.getLayoutParams() == null) {
             view.setLayoutParams(new ViewGroup.LayoutParams(

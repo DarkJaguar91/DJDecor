@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.darkjaguar.dj_decor.header.interfaces.DJHeaderDecorAdapter;
-import com.darkjaguar.dj_decor.header.interfaces.DJHeaderPositonCalculator;
+import com.darkjaguar.dj_decor.header.interfaces.DJHeaderPositionCalculator;
 import com.darkjaguar.dj_decor.header.interfaces.DJHeaderProvider;
 import com.darkjaguar.dj_decor.header.util.DJMarginCalculator;
 import com.darkjaguar.dj_decor.header.util.DJRecyclerViewOrientationHelper;
@@ -15,7 +15,7 @@ import com.darkjaguar.dj_decor.header.util.DJRecyclerViewOrientationHelper;
 public class DJHeaderDecor extends RecyclerView.ItemDecoration {
     protected final DJHeaderDecorAdapter adapter;
     protected final DJHeaderProvider headerCache;
-    protected final DJHeaderPositonCalculator positionCalculator;
+    protected final DJHeaderPositionCalculator positionCalculator;
 
     public DJHeaderDecor(DJHeaderDecorAdapter adapter) {
         this.adapter = adapter;
@@ -23,6 +23,9 @@ public class DJHeaderDecor extends RecyclerView.ItemDecoration {
         positionCalculator = new DJHeaderPositionCalculatorImpl(adapter);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
@@ -56,6 +59,9 @@ public class DJHeaderDecor extends RecyclerView.ItemDecoration {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
         super.onDrawOver(c, parent, state);
@@ -85,6 +91,9 @@ public class DJHeaderDecor extends RecyclerView.ItemDecoration {
         }
     }
 
+    /**
+     * Method to relay a clear to the cache for this Decor
+     */
     public void clearCache() {
         headerCache.clear();
     }

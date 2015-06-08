@@ -5,6 +5,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class DJMarginCalculator {
+    /**
+     * A simple util to generate a {@link Rect} of margins for the given {@link View}
+     * @param view for which to get the margins
+     * @return a {@link Rect} with the margins for the given {@link View}
+     */
     public static Rect getMarginsForView(View view) {
         if (view.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
             return new Rect(
