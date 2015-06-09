@@ -40,3 +40,25 @@ recyclerView.addItemDecoration(djHeaderDecor);
 Compatibility
 -------------
 API 14+
+
+Changelog
+==========
+V0.2.3
+------
+* Added Javadoc
+* Fixed some spelling issues
+
+V0.2.2
+-------
+* Fixed spelling issues
+* Fixed caching (allowing for clearing of cache)
+* Fixed layout width calculation
+
+V0.2.0
+------
+* Added compatability for Horizontal layouts
+* Added compatability for resersed layouts
+
+V0.1.0
+-------
+* Initial release with only vertical layouts that are not reversed
