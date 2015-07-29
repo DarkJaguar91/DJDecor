@@ -24,7 +24,7 @@
             android:text="Direction" />
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <com.darkjaguar.dj_decor.header.DJDecorRecyclerView
         android:id="@+id/recycler"
         android:layout_below="@+id/button_holder"
         android:layout_width="match_parent"

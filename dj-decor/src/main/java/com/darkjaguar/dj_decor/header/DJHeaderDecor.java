@@ -16,11 +16,13 @@ public class DJHeaderDecor extends RecyclerView.ItemDecoration {
     protected final DJHeaderDecorAdapter adapter;
     protected final DJHeaderProvider headerCache;
     protected final DJHeaderPositionCalculator positionCalculator;
+    protected final DJDecorRecyclerView mainView;
 
-    public DJHeaderDecor(DJHeaderDecorAdapter adapter) {
+    public DJHeaderDecor(DJHeaderDecorAdapter adapter, DJDecorRecyclerView mainView) {
         this.adapter = adapter;
         headerCache = new DJHeaderCache(adapter);
         positionCalculator = new DJHeaderPositionCalculatorImpl(adapter);
+        this.mainView = mainView;
     }
 
     /**
@@ -68,27 +70,47 @@ public class DJHeaderDecor extends RecyclerView.ItemDecoration {
 
         if (parent.getChildCount() <= 0 || adapter.getItemCount() <= 0) return;
 
+        boolean hasAFloater = false;
         for (int i = 0; i < parent.getChildCount(); i++) {
             View view = parent.getChildAt(i);
             int position = parent.getChildAdapterPosition(view);
 
             if (position == RecyclerView.NO_POSITION) continue;
 
-            int orientation = DJRecyclerViewOrientationHelper.getRecyclerViewOrientation(parent);
-            boolean reversed = DJRecyclerViewOrientationHelper.isRecyclerViewReversed(parent);
-            boolean firstView = positionCalculator.isFirstView(view, parent, orientation, reversed);
+            boolean firstView = positionCalculator.isFirstView(view, parent);
             boolean needsNewHeader = positionCalculator.needsNewHeader(position);
             if (firstView || needsNewHeader) {
                 View header = headerCache.getView(position, parent);
 
-                Point headerPos = positionCalculator.getPositionForHeader(view, header, parent, position, firstView, orientation, reversed);
+                Point headerPos = positionCalculator
+                        .getPositionForHeader(view, header, parent, position, firstView);
 
-                c.save();
-                c.translate(headerPos.x, headerPos.y);
-                header.draw(c);
-                c.restore();
+                if (!movingOverNextHeader(view, header, position) && (firstView  || obscuringHeader(view, header))) {
+                    hasAFloater = true;
+                    mainView.showHoveringHeader(position);
+                } else {
+                    c.save(); c.translate(headerPos.x, headerPos.y);
+                    header.draw(c);
+                    c.restore();
+                }
             }
         }
+        if (!hasAFloater) {
+            mainView.hideHoveringHeader();
+        }
+    }
+
+    private boolean movingOverNextHeader(View view, View header, int position) {
+        if (header.getHeight() + DJMarginCalculator.getMarginsForView(header).bottom > view.getBottom()) {
+            if (position == adapter.getItemCount() || positionCalculator.needsNewHeader(position+1)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean obscuringHeader(View view, View header) {
+        return view.getTop() - header.getHeight() < 0;
     }
 
     /**

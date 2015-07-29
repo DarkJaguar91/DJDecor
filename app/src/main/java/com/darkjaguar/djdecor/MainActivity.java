@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.darkjaguar.dj_decor.header.DJDecorRecyclerView;
 import com.darkjaguar.dj_decor.header.DJHeaderDecor;
 
 import butterknife.ButterKnife;
@@ -16,13 +17,12 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity {
 
     @InjectView(R.id.recycler)
-    protected RecyclerView recyclerView;
+    protected DJDecorRecyclerView recyclerView;
     @InjectView(R.id.orientation_button)
     Button btnOrient;
     @InjectView(R.id.direction_button)
     Button btnDirect;
     private LinearLayoutManager layoutManager;
-    private DJHeaderDecor djHeaderDecor;
     private SimpleAdapter adapter;
 
     @Override
@@ -36,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new SimpleAdapter();
         recyclerView.setAdapter(adapter);
-        djHeaderDecor = new DJHeaderDecor(adapter);
-        recyclerView.addItemDecoration(djHeaderDecor);
 
         btnOrient.setText("Vertical");
         btnDirect.setText("Normal");
@@ -52,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.orientation_button)
     public void onOrientChanged() {
-        djHeaderDecor.clearCache();
         btnOrient.setText(layoutManager.getOrientation() == RecyclerView.VERTICAL ? "Horizontal" : "Vertical");
         layoutManager.setOrientation(layoutManager.getOrientation() == RecyclerView.VERTICAL ? LinearLayoutManager.HORIZONTAL : LinearLayoutManager.VERTICAL);
         adapter.notifyDataSetChanged();
