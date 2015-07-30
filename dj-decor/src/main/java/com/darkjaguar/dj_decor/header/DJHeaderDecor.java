@@ -10,7 +10,6 @@ import com.darkjaguar.dj_decor.header.interfaces.DJHeaderDecorAdapter;
 import com.darkjaguar.dj_decor.header.interfaces.DJHeaderPositionCalculator;
 import com.darkjaguar.dj_decor.header.interfaces.DJHeaderProvider;
 import com.darkjaguar.dj_decor.header.util.DJMarginCalculator;
-import com.darkjaguar.dj_decor.header.util.DJRecyclerViewOrientationHelper;
 
 public class DJHeaderDecor extends RecyclerView.ItemDecoration {
     protected final DJHeaderDecorAdapter adapter;
@@ -37,27 +36,9 @@ public class DJHeaderDecor extends RecyclerView.ItemDecoration {
 
         View header = headerCache.getView(position, parent);
         if (positionCalculator.needsNewHeader(position)) {
-            int orientation = DJRecyclerViewOrientationHelper.getRecyclerViewOrientation(parent);
-            boolean reversed = DJRecyclerViewOrientationHelper.isRecyclerViewReversed(parent);
             Rect marginsForView = DJMarginCalculator.getMarginsForView(header);
-
-            if (orientation == RecyclerView.VERTICAL) {
-                outRect.left = 0;
-                int headerHeight = marginsForView.top + marginsForView.bottom + header.getHeight();
-                if (reversed) {
-                    outRect.bottom = headerHeight;
-                } else {
-                    outRect.top = headerHeight;
-                }
-            } else {
-                outRect.top = 0;
-                int headerWidth = marginsForView.left + marginsForView.right + header.getWidth();
-                if (reversed) {
-                    outRect.right = headerWidth;
-                } else {
-                    outRect.left = headerWidth;
-                }
-            }
+            outRect.left = 0;
+            outRect.top = marginsForView.top + marginsForView.bottom + header.getHeight();
         }
     }
 
@@ -111,12 +92,5 @@ public class DJHeaderDecor extends RecyclerView.ItemDecoration {
 
     private boolean obscuringHeader(View view, View header) {
         return view.getTop() - header.getHeight() < 0;
-    }
-
-    /**
-     * Method to relay a clear to the cache for this Decor
-     */
-    public void clearCache() {
-        headerCache.clear();
     }
 }

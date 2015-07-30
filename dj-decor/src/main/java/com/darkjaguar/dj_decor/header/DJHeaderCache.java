@@ -15,9 +15,9 @@ import com.darkjaguar.dj_decor.header.util.DJRecyclerViewOrientationHelper;
 
 
 public class DJHeaderCache implements DJHeaderProvider {
-    LruCache<Long, View> headerCache;
     DJHeaderDecorAdapter adapter;
     RecyclerView.ViewHolder floatingView;
+    RecyclerView.ViewHolder drawingView;
 
     public DJHeaderCache(DJHeaderDecorAdapter adapter) {
         this(adapter, 6);
@@ -25,7 +25,6 @@ public class DJHeaderCache implements DJHeaderProvider {
 
     public DJHeaderCache(DJHeaderDecorAdapter adapter, int maxSize) {
         this.adapter = adapter;
-        headerCache = new LruCache<>(maxSize);
     }
 
     /**
@@ -35,19 +34,16 @@ public class DJHeaderCache implements DJHeaderProvider {
     public View getView(int position, RecyclerView parent) {
         long id = adapter.getHeaderId(position);
 
-        View view = headerCache.get(id);
+        if (drawingView == null) {
+            drawingView = adapter.onCreateHeaderViewHolder(parent);
 
-        if (view == null) {
-            RecyclerView.ViewHolder viewHolder = adapter.onCreateHeaderViewHolder(parent);
-            view = viewHolder.itemView;
-
-            adapter.onBindHeaderViewHolder(viewHolder, position);
-            correctViewSizes(view, parent);
-
-            headerCache.put(id, view);
+            adapter.onBindHeaderViewHolder(drawingView, position);
+            correctViewSizes(drawingView.itemView, parent);
+        } else {
+            adapter.onBindHeaderViewHolder(drawingView, position);
         }
 
-        return view;
+        return drawingView.itemView;
     }
 
     @Override
@@ -63,15 +59,6 @@ public class DJHeaderCache implements DJHeaderProvider {
             parent.addView(floatingView.itemView);
         }
         return floatingView;
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void clear() {
-        this.headerCache.evictAll();
     }
 
     /**

@@ -35,6 +35,7 @@ public class DJDecorRecyclerView extends RelativeLayout {
             display();
         }
     };
+    private int hideDelay = 1000;
 
     public DJDecorRecyclerView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -72,7 +73,7 @@ public class DJDecorRecyclerView extends RelativeLayout {
             this.addView(recyclerView);
         }
 
-        recyclerView.postDelayed(hideAnimation, 1000);
+        recyclerView.postDelayed(hideAnimation, hideDelay);
     }
 
     public void showHoveringHeader(int position, float offset) {
@@ -134,6 +135,14 @@ public class DJDecorRecyclerView extends RelativeLayout {
         this.hideFloatingView = hideFloatingView;
     }
 
+    public int getHideDelay() {
+        return hideDelay;
+    }
+
+    public void setHideDelay(int hideDelay) {
+        this.hideDelay = hideDelay;
+    }
+
     class DJRecyclerView extends RecyclerView {
         public DJRecyclerView(Context context) {
             super(context);
@@ -149,8 +158,12 @@ public class DJDecorRecyclerView extends RelativeLayout {
 
         @Override
         public void setAdapter(Adapter adapter) {
+            if (adapter == this.getAdapter()) return;
             super.setAdapter(adapter);
             if (adapter instanceof DJHeaderDecorAdapter) {
+                if (headerDecor != null) {
+                    this.removeItemDecoration(headerDecor);
+                }
                 headerAdapter = (DJHeaderDecorAdapter) adapter;
                 headerDecor = new DJHeaderDecor(headerAdapter, DJDecorRecyclerView.this);
                 this.addItemDecoration(headerDecor);
@@ -165,7 +178,7 @@ public class DJDecorRecyclerView extends RelativeLayout {
                 removeCallbacks(hideAnimation);
                 if (state == SCROLL_STATE_IDLE && hideFloatingView) {
                     scrolling = false;
-                    postDelayed(hideAnimation, 1000);
+                    postDelayed(hideAnimation, hideDelay);
                 } else {
                     scrolling = true;
                     animate = false;

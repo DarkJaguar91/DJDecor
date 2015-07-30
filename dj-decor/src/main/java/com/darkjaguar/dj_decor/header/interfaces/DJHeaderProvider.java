@@ -15,10 +15,4 @@ public interface DJHeaderProvider {
     View getView(int position, RecyclerView parent);
 
     RecyclerView.ViewHolder createFloatingView(RelativeLayout parent);
-
-    /**
-     * Clears the provider
-     *  If items are cached to ensure all items are recalculated
-     */
-    void clear();
 }
