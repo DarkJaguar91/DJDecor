@@ -6,6 +6,7 @@ import android.util.LruCache;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.darkjaguar.dj_decor.header.interfaces.DJHeaderDecorAdapter;
 import com.darkjaguar.dj_decor.header.interfaces.DJHeaderProvider;
@@ -50,12 +51,13 @@ public class DJHeaderCache implements DJHeaderProvider {
     }
 
     @Override
-    public RecyclerView.ViewHolder createFloatingView(FrameLayout parent) {
+    public RecyclerView.ViewHolder createFloatingView(RelativeLayout parent) {
         if (floatingView == null) {
             floatingView = adapter.onCreateHeaderViewHolder(parent);
 
-            ViewGroup.LayoutParams params = floatingView.itemView.getLayoutParams();
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(floatingView.itemView.getLayoutParams());
             params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
             floatingView.itemView.setLayoutParams(params);
 
             parent.addView(floatingView.itemView);

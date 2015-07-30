@@ -3,6 +3,7 @@ package com.darkjaguar.dj_decor.header.interfaces;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 public interface DJHeaderProvider {
     /**
@@ -13,7 +14,7 @@ public interface DJHeaderProvider {
      */
     View getView(int position, RecyclerView parent);
 
-    RecyclerView.ViewHolder createFloatingView(FrameLayout parent);
+    RecyclerView.ViewHolder createFloatingView(RelativeLayout parent);
 
     /**
      * Clears the provider

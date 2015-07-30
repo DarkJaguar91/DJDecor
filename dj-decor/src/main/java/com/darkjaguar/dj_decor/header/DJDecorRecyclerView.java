@@ -2,24 +2,31 @@ package com.darkjaguar.dj_decor.header;
 
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPropertyAnimatorListener;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
+import com.darkjaguar.dj_decor.R;
 import com.darkjaguar.dj_decor.header.interfaces.DJHeaderDecorAdapter;
 import com.darkjaguar.dj_decor.header.util.DJMarginCalculator;
 
-public class DJDecorRecyclerView extends FrameLayout {
+public class DJDecorRecyclerView extends RelativeLayout {
     DJRecyclerView recyclerView;
     DJHeaderDecor headerDecor;
     DJHeaderDecorAdapter headerAdapter;
     boolean hoveringHeaderVisible = false, animate = false, scrolling = false;
     RecyclerView.ViewHolder floatingHeaderItem;
+    SwipeRefreshLayout refreshLayout;
     float offsetForAnimation = -1;
+
+    long hideDuration = 300;
+    boolean hideFloatingView = true;
+
     private Runnable hideAnimation = hideAnimation = new Runnable() {
         @Override
         public void run() {
@@ -29,13 +36,40 @@ public class DJDecorRecyclerView extends FrameLayout {
     };
 
     public DJDecorRecyclerView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
+    }
 
-        recyclerView = new DJRecyclerView(context);
-        recyclerView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                                                  ViewGroup.LayoutParams.MATCH_PARENT));
+    public DJDecorRecyclerView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
 
-        this.addView(recyclerView);
+        TypedArray attributeTypes = context.obtainStyledAttributes(attrs, R.styleable.DJDecorRecyclerAttributes);
+
+        for (int i = 0; i < attributeTypes.getIndexCount(); ++i) {
+            int attribute = attributeTypes.getIndex(i);
+            if (attribute == R.styleable.DJDecorRecyclerAttributes_swipe_refresh) {
+                boolean swipeRefresh = attributeTypes.getBoolean(attribute, false);
+                if (swipeRefresh) {
+                    refreshLayout = new SwipeRefreshLayout(context);
+                    refreshLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                                                               ViewGroup.LayoutParams.MATCH_PARENT));
+                    this.addView(refreshLayout);
+                }
+            }
+        }
+        attributeTypes.recycle();
+
+
+        recyclerView = new DJRecyclerView(context, attrs, defStyleAttr);
+        recyclerView.setId(NO_ID);
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                                                   ViewGroup.LayoutParams.MATCH_PARENT);
+        recyclerView.setLayoutParams(params);
+
+        if (refreshLayout != null) {
+            refreshLayout.addView(recyclerView);
+        } else {
+            this.addView(recyclerView);
+        }
     }
 
     public void showHoveringHeader(int position, float offset) {
@@ -62,7 +96,7 @@ public class DJDecorRecyclerView extends FrameLayout {
             }
             if (animate) {
                 animate = false;
-                ViewCompat.animate(floatingHeaderItem.itemView).setDuration(300).translationY(offsetForAnimation - floatingHeaderItem.itemView
+                ViewCompat.animate(floatingHeaderItem.itemView).setDuration(hideDuration).translationY(offsetForAnimation - floatingHeaderItem.itemView
                         .getHeight() - DJMarginCalculator.getMarginsForView(floatingHeaderItem.itemView).bottom - DJMarginCalculator.getMarginsForView(floatingHeaderItem.itemView).top).start();
             }
         } else {
@@ -70,17 +104,41 @@ public class DJDecorRecyclerView extends FrameLayout {
         }
     }
 
-    public void setLayoutManager(RecyclerView.LayoutManager layoutManager) {
-        recyclerView.setLayoutManager(layoutManager);
+    public SwipeRefreshLayout getSwipeRefreshLayout() {
+        return refreshLayout;
     }
 
-    public void setAdapter(RecyclerView.Adapter adapter) {
-        recyclerView.setAdapter(adapter);
+    public RecyclerView getRecyclerView() {
+        return recyclerView;
+    }
+
+    public long getHideDuration() {
+        return hideDuration;
+    }
+
+    public void setHideDuration(long hideDuration) {
+        this.hideDuration = hideDuration;
+    }
+
+    public boolean isHideFloatingView() {
+        return hideFloatingView;
+    }
+
+    public void setHideFloatingView(boolean hideFloatingView) {
+        this.hideFloatingView = hideFloatingView;
     }
 
     class DJRecyclerView extends RecyclerView {
         public DJRecyclerView(Context context) {
             super(context);
+        }
+
+        public DJRecyclerView(Context context, AttributeSet attrs) {
+            super(context, attrs);
+        }
+
+        public DJRecyclerView(Context context, AttributeSet attrs, int defStyle) {
+            super(context, attrs, defStyle);
         }
 
         @Override
@@ -99,7 +157,7 @@ public class DJDecorRecyclerView extends FrameLayout {
             super.onScrollStateChanged(state);
             if (floatingHeaderItem != null) {
                 removeCallbacks(hideAnimation);
-                if (state == SCROLL_STATE_IDLE) {
+                if (state == SCROLL_STATE_IDLE && hideFloatingView) {
                     scrolling = false;
                     postDelayed(hideAnimation, 1000);
                 } else {

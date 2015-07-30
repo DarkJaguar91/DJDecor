@@ -1,14 +1,14 @@
 package com.darkjaguar.djdecor;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.darkjaguar.dj_decor.header.DJDecorRecyclerView;
-import com.darkjaguar.dj_decor.header.DJHeaderDecor;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -18,10 +18,6 @@ public class MainActivity extends AppCompatActivity {
 
     @InjectView(R.id.recycler)
     protected DJDecorRecyclerView recyclerView;
-    @InjectView(R.id.orientation_button)
-    Button btnOrient;
-    @InjectView(R.id.direction_button)
-    Button btnDirect;
     private LinearLayoutManager layoutManager;
     private SimpleAdapter adapter;
 
@@ -33,25 +29,22 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.inject(this);
 
         layoutManager = new LinearLayoutManager(this, LinearLayout.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.getRecyclerView().setLayoutManager(layoutManager);
         adapter = new SimpleAdapter();
-        recyclerView.setAdapter(adapter);
+        recyclerView.getRecyclerView().setAdapter(adapter);
+        recyclerView.setHideDuration(5000);
 
-        btnOrient.setText("Vertical");
-        btnDirect.setText("Normal");
-    }
+        recyclerView.getSwipeRefreshLayout().setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        recyclerView.getSwipeRefreshLayout().setRefreshing(false);
+                    }
+                }, 2500);
+            }
+        });
 
-    @OnClick(R.id.direction_button)
-    public void onDirectionChanged() {
-        btnDirect.setText(layoutManager.getReverseLayout() ? "Normal" : "Reversed");
-        layoutManager.setReverseLayout(!layoutManager.getReverseLayout());
-        adapter.notifyDataSetChanged();
-    }
-
-    @OnClick(R.id.orientation_button)
-    public void onOrientChanged() {
-        btnOrient.setText(layoutManager.getOrientation() == RecyclerView.VERTICAL ? "Horizontal" : "Vertical");
-        layoutManager.setOrientation(layoutManager.getOrientation() == RecyclerView.VERTICAL ? LinearLayoutManager.HORIZONTAL : LinearLayoutManager.VERTICAL);
-        adapter.notifyDataSetChanged();
     }
 }
