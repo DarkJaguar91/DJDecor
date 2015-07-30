@@ -1,5 +1,6 @@
 package com.darkjaguar.djdecor;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -32,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.getRecyclerView().setLayoutManager(layoutManager);
         adapter = new SimpleAdapter();
         recyclerView.getRecyclerView().setAdapter(adapter);
-        recyclerView.setHideDuration(5000);
 
         recyclerView.getSwipeRefreshLayout().setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -45,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
                 }, 2500);
             }
         });
+//        layoutManager.scrollToPosition(adapter.getItemCount() - 1);
 
+    }
+
+    @OnClick(R.id.loaderz)
+    public void onClickerize() {
+        startActivity(new Intent(this, MainActivity.class));
     }
 }

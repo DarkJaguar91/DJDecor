@@ -7,6 +7,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -70,6 +71,8 @@ public class DJDecorRecyclerView extends RelativeLayout {
         } else {
             this.addView(recyclerView);
         }
+
+        recyclerView.postDelayed(hideAnimation, 1000);
     }
 
     public void showHoveringHeader(int position, float offset) {
@@ -86,6 +89,9 @@ public class DJDecorRecyclerView extends RelativeLayout {
 
     protected void createFloatingHeader() {
         floatingHeaderItem = headerDecor.headerCache.createFloatingView(this);
+        if (hoveringHeaderVisible) {
+            recyclerView.postDelayed(hideAnimation, 1000);
+        }
     }
 
     protected void display() {
@@ -155,6 +161,7 @@ public class DJDecorRecyclerView extends RelativeLayout {
         @Override
         public void onScrollStateChanged(int state) {
             super.onScrollStateChanged(state);
+            Log.i("TESTERIZE", "scroll state change: " + state);
             if (floatingHeaderItem != null) {
                 removeCallbacks(hideAnimation);
                 if (state == SCROLL_STATE_IDLE && hideFloatingView) {
