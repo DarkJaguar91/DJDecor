@@ -161,7 +161,6 @@ public class DJDecorRecyclerView extends RelativeLayout {
         @Override
         public void onScrollStateChanged(int state) {
             super.onScrollStateChanged(state);
-            Log.i("TESTERIZE", "scroll state change: " + state);
             if (floatingHeaderItem != null) {
                 removeCallbacks(hideAnimation);
                 if (state == SCROLL_STATE_IDLE && hideFloatingView) {
