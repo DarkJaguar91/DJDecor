@@ -18,6 +18,7 @@ public class DJHeaderCache implements DJHeaderProvider {
     DJHeaderDecorAdapter adapter;
     RecyclerView.ViewHolder floatingView;
     RecyclerView.ViewHolder drawingView;
+    long drawingViewId = Long.MIN_VALUE;
 
     public DJHeaderCache(DJHeaderDecorAdapter adapter) {
         this(adapter, 6);
@@ -34,13 +35,13 @@ public class DJHeaderCache implements DJHeaderProvider {
     public View getView(int position, RecyclerView parent) {
         long id = adapter.getHeaderId(position);
 
-        if (drawingView == null) {
-            drawingView = adapter.onCreateHeaderViewHolder(parent);
-
+        if (drawingViewId != id) {
+            if (drawingView == null) {
+                drawingView = adapter.onCreateHeaderViewHolder(parent);
+            }
             adapter.onBindHeaderViewHolder(drawingView, position);
             correctViewSizes(drawingView.itemView, parent);
-        } else {
-            adapter.onBindHeaderViewHolder(drawingView, position);
+            drawingViewId = id;
         }
 
         return drawingView.itemView;
