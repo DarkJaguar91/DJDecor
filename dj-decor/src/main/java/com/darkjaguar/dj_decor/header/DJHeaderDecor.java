@@ -87,7 +87,7 @@ public class DJHeaderDecor extends RecyclerView.ItemDecoration {
 
                 if (!movingOverNextHeader(view, header, position) && (firstView  || obscuringHeader(view, header))) {
                     hasAFloater = true;
-                    mainView.showHoveringHeader(position);
+                    mainView.showHoveringHeader(position, view.getTop());
                 } else {
                     c.save(); c.translate(headerPos.x, headerPos.y);
                     header.draw(c);

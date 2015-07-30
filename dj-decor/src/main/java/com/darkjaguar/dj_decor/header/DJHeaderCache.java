@@ -87,20 +87,13 @@ public class DJHeaderCache implements DJHeaderProvider {
 
         Rect margins = DJMarginCalculator.getMarginsForView(view);
 
-        int widthSpec;
-        int heightSpec;
-
-        int orientation = DJRecyclerViewOrientationHelper.getRecyclerViewOrientation(parent);
-
-        widthSpec = View.MeasureSpec.makeMeasureSpec(parent.getWidth(), orientation == RecyclerView.VERTICAL ? View.MeasureSpec.EXACTLY : View.MeasureSpec.UNSPECIFIED);
-        heightSpec = View.MeasureSpec.makeMeasureSpec(parent.getHeight(), orientation == RecyclerView.VERTICAL ? View.MeasureSpec.UNSPECIFIED : View.MeasureSpec.EXACTLY);
-
         int childWidth = ViewGroup
-                .getChildMeasureSpec(widthSpec, parent.getPaddingLeft() + parent.getPaddingRight() + margins.left + margins.right,
+                .getChildMeasureSpec(View.MeasureSpec.makeMeasureSpec(parent.getWidth(), View.MeasureSpec.EXACTLY), parent.getPaddingLeft() + parent.getPaddingRight() + margins.left + margins.right,
                                      view.getLayoutParams().width);
         int childHeight = ViewGroup
-                .getChildMeasureSpec(heightSpec, parent.getPaddingTop() + parent.getPaddingBottom(),
+                .getChildMeasureSpec(View.MeasureSpec.makeMeasureSpec(parent.getHeight(), View.MeasureSpec.UNSPECIFIED), parent.getPaddingTop() + parent.getPaddingBottom(),
                                      view.getLayoutParams().height);
+
         view.measure(childWidth, childHeight);
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
     }

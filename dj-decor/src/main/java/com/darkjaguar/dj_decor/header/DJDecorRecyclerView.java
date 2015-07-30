@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.darkjaguar.dj_decor.header.interfaces.DJHeaderDecorAdapter;
+import com.darkjaguar.dj_decor.header.util.DJMarginCalculator;
 
 public class DJDecorRecyclerView extends FrameLayout {
     DJRecyclerView recyclerView;
@@ -18,6 +19,7 @@ public class DJDecorRecyclerView extends FrameLayout {
     DJHeaderDecorAdapter headerAdapter;
     boolean hoveringHeaderVisible = false, animate = false, scrolling = false;
     RecyclerView.ViewHolder floatingHeaderItem;
+    float offsetForAnimation = -1;
     private Runnable hideAnimation = hideAnimation = new Runnable() {
         @Override
         public void run() {
@@ -36,8 +38,9 @@ public class DJDecorRecyclerView extends FrameLayout {
         this.addView(recyclerView);
     }
 
-    public void showHoveringHeader(int position) {
+    public void showHoveringHeader(int position, float offset) {
         hoveringHeaderVisible = true;
+        offsetForAnimation = offset;
         headerAdapter.onBindHeaderViewHolder(floatingHeaderItem, position);
         display();
     }
@@ -55,28 +58,12 @@ public class DJDecorRecyclerView extends FrameLayout {
         if (hoveringHeaderVisible) {
             if (scrolling) {
                 floatingHeaderItem.itemView.setAlpha(1.0f);
+                floatingHeaderItem.itemView.setTranslationY(0);
             }
             if (animate) {
                 animate = false;
-                ViewCompat.animate(floatingHeaderItem.itemView).setDuration(300).translationYBy(
-                        -floatingHeaderItem.itemView.getHeight())
-                          .setListener(new ViewPropertyAnimatorListener() {
-                              @Override
-                              public void onAnimationStart(View view) {
-
-                              }
-
-                              @Override
-                              public void onAnimationEnd(View view) {
-                                  floatingHeaderItem.itemView.setAlpha(0.0f);
-                                  floatingHeaderItem.itemView.setTranslationY(0);
-                              }
-
-                              @Override
-                              public void onAnimationCancel(View view) {
-
-                              }
-                          }).start();
+                ViewCompat.animate(floatingHeaderItem.itemView).setDuration(300).translationY(offsetForAnimation - floatingHeaderItem.itemView
+                        .getHeight() - DJMarginCalculator.getMarginsForView(floatingHeaderItem.itemView).bottom - DJMarginCalculator.getMarginsForView(floatingHeaderItem.itemView).top).start();
             }
         } else {
             floatingHeaderItem.itemView.setAlpha(0.0f);
