@@ -53,4 +53,9 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         recyclerView.getRecyclerView().setAdapter(adapter);
     }
+
+    @OnClick(R.id.add_btn)
+    public void onAddClick() {
+        adapter.additem();
+    }
 }

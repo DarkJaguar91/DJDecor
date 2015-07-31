@@ -55,6 +55,11 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder
         return list.size();
     }
 
+    public void additem() {
+        list.add("Item: " + (list.size() + 1));
+        notifyItemInserted(list.size());
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         @InjectView(R.id.text)

@@ -8,9 +8,17 @@
     <com.darkjaguar.dj_decor.header.DJDecorRecyclerView
         xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:id="@+id/recycler"
+        android:layout_above="@+id/add_btn"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
         custom:swipe_refresh="true"/>
+
+    <Button
+        android:id="@+id/add_btn"
+        android:text="Add Item"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
