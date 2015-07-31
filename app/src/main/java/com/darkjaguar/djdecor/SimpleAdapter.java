@@ -18,11 +18,11 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder
     List<String> list;
 
     public SimpleAdapter() {
-        list = new ArrayList<>(10000);
+        list = new ArrayList<>();
 
-        for (int i = 0; i < 10000; i++) {
-            list.add(i + "");
-        }
+//        for (int i = 0; i < 10000; i++) {
+//            list.add(i + "");
+//        }
     }
 
     @Override

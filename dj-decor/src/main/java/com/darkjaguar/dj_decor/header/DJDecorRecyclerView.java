@@ -90,8 +90,11 @@ public class DJDecorRecyclerView extends RelativeLayout {
 
     protected void createFloatingHeader() {
         floatingHeaderItem = headerDecor.headerCache.createFloatingView(this);
-        if (hoveringHeaderVisible) {
+        if (headerAdapter.getItemCount() > 0 && hoveringHeaderVisible) {
+            floatingHeaderItem.itemView.setAlpha(1.0f);
             recyclerView.postDelayed(hideAnimation, 1000);
+        } else {
+            floatingHeaderItem.itemView.setAlpha(0.0f);
         }
     }
 

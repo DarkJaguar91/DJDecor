@@ -46,17 +46,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 //        layoutManager.scrollToPosition(adapter.getItemCount() - 1);
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         recyclerView.getRecyclerView().setAdapter(adapter);
-    }
-
-    @OnClick(R.id.loaderz)
-    public void onClickerize() {
-        startActivity(new Intent(this, MainActivity.class));
     }
 }
