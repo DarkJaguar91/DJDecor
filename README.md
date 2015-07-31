@@ -6,14 +6,14 @@ Allows the user to easily add decorations to their RecyclerView.
 
 Currently supported Decorations:
 * Header decoration for LinearLayout RecyclerView.
-  * Works for Both Vertical ~~and Horizontal layouts~~.
+  * Works for ~~Both~~ Vertical ~~and Horizontal layouts~~.
   * ~~Works with reversed layouts~~
   * Headers are cached and reused to ensure very little memory is utalised
   * Hides the floating view that obscures elements when not scrolling
   * Has swipe to refresh capability with xml attributes
 
 ### Header Example
-[![animated gif demo](http://i.imgur.com/88dvq73.gif?1)](http://i.imgur.com/88dvq73.gif?1)
+[![animated gif demo](http://i.imgur.com/vDCCrJR.gif)](http://i.imgur.com/vDCCrJR.gif)
 
 Download
 ---------
