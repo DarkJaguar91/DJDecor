@@ -62,6 +62,14 @@ API 14+
 
 Changelog
 ==========
+V0.3.9
+------
+* Fixed null pointer exception which occurs on Android L (5.0.2) devices
+
+V0.3.8
+------
+* Fixed issue with floating header displaying on empty adapters
+
 V0.3.7
 ------
 * Added support for animating out the header that obscures view when not scrolling
