@@ -28,7 +28,7 @@ public class DJDecorRecyclerView extends RelativeLayout {
     long hideDuration = 300;
     boolean hideFloatingView = true;
 
-    private Runnable hideAnimation = hideAnimation = new Runnable() {
+    private Runnable hideAnimation = new Runnable() {
         @Override
         public void run() {
             animate = true;
@@ -99,18 +99,22 @@ public class DJDecorRecyclerView extends RelativeLayout {
     }
 
     protected void display() {
-        if (hoveringHeaderVisible) {
-            if (scrolling) {
-                floatingHeaderItem.itemView.setAlpha(1.0f);
-                floatingHeaderItem.itemView.setTranslationY(0);
+        if (floatingHeaderItem != null) {
+            if (hoveringHeaderVisible) {
+                if (scrolling) {
+                    floatingHeaderItem.itemView.setAlpha(1.0f);
+                    floatingHeaderItem.itemView.setTranslationY(0);
+                }
+                if (animate) {
+                    animate = false;
+                    ViewCompat.animate(floatingHeaderItem.itemView).setDuration(hideDuration).translationY(
+                            offsetForAnimation - floatingHeaderItem.itemView.getHeight() - DJMarginCalculator
+                                    .getMarginsForView(floatingHeaderItem.itemView).bottom - DJMarginCalculator
+                                    .getMarginsForView(floatingHeaderItem.itemView).top).start();
+                }
+            } else {
+                floatingHeaderItem.itemView.setAlpha(0.0f);
             }
-            if (animate) {
-                animate = false;
-                ViewCompat.animate(floatingHeaderItem.itemView).setDuration(hideDuration).translationY(offsetForAnimation - floatingHeaderItem.itemView
-                        .getHeight() - DJMarginCalculator.getMarginsForView(floatingHeaderItem.itemView).bottom - DJMarginCalculator.getMarginsForView(floatingHeaderItem.itemView).top).start();
-            }
-        } else {
-            floatingHeaderItem.itemView.setAlpha(0.0f);
         }
     }
 
